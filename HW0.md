@@ -165,9 +165,22 @@ Sizing up C types and their limits, `int` and `char` arrays, and incrementing po
 
 ### Not all bytes are 8 bits?
 1. How many bits are there in a byte?
-2. How many bytes are there in a `char`?
-3. How many bytes the following are on your machine?
+```
+at least 8 bits, usually 8 bits.
+```
+3. How many bytes are there in a `char`?
+```
+1
+```
+5. How many bytes the following are on your machine?
    - `int`, `double`, `float`, `long`, and `long long`
+   ```
+   sizeof(int) = 4
+   sizeof(double) = 8
+   sizeof(float) = 4
+   sizeof(long) = 4
+   sizeof(long long) = 8
+   ```
 ### Follow the int pointer
 4. On a machine with 8 byte integers:
 ```C
