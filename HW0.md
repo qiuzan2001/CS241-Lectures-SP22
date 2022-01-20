@@ -125,6 +125,18 @@ int main() {
 ### Writing to files
 3. Take your program from "Hello, World!" modify it write to a file called `hello_world.txt`.
    - Make sure to to use correct flags and a correct mode for `open()` (`man 2 open` is your friend).
+
+```C
+#include <unistd.h>
+
+int main() {
+	mode_t mode = S_IRUSR | S_IWUSR;
+	int fildes = open("output.txt", O_CREAT | O_TRUNC | O_RDWR, mode);
+	write(fildes, "Hello world!\n", 12);
+	close(fildes);
+	return 0;
+}
+```
 ### Not everything is a system call
 4. Take your program from "Writing to files" and replace `write()` with `printf()`.
    - Make sure to print to the file instead of standard out!
