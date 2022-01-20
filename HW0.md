@@ -189,6 +189,9 @@ int main(){
 } 
 ```
 If the address of data is `0x7fbd9d40`, then what is the address of `data+2`?
+```
+the address of data[2]
+```
 
 5. What is `data[3]` equivalent to in C?
    - Hint: what does C convert `data[3]` to before dereferencing the address?
