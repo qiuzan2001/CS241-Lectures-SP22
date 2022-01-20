@@ -140,7 +140,7 @@ int main() {
 ### Not everything is a system call
 4. Take your program from "Writing to files" and replace `write()` with `printf()`.
    - Make sure to print to the file instead of standard out!
-   ```C
+```C
    #include <stdio.h>
 
 int main() {
