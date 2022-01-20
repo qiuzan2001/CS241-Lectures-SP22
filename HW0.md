@@ -132,7 +132,7 @@ int main() {
 int main() {
 	mode_t mode = S_IRUSR | S_IWUSR;
 	int fildes = open("output.txt", O_CREAT | O_TRUNC | O_RDWR, mode);
-	write(fildes, "Hello world!\n", 12);
+	write (1, "Hi! My name is Zihan Qiu", 24);	
 	close(fildes);
 	return 0;
 }
