@@ -190,11 +190,14 @@ int main(){
 ```
 If the address of data is `0x7fbd9d40`, then what is the address of `data+2`?
 ```
-the address of data[2]
+the address of data[2], which is 0x7fbd9d48
 ```
 
 5. What is `data[3]` equivalent to in C?
    - Hint: what does C convert `data[3]` to before dereferencing the address?
+   ```
+   *(data+3) or 3[data]
+   ```
 
 ### `sizeof` character arrays, incrementing pointers
   
@@ -226,6 +229,10 @@ char *ptr = "Hello";
 char array[] = "Hello";
 ```
 What are the values of `sizeof(ptr)` and `sizeof(array)`? Why?
+```
+sizeof(ptr) = 4 because the size of pointer is 4
+sizeof(array) = 6 because "hello" is a 5 chars string, and one more bytes for declear the end of a array.
+```
 
 ### Lifetime of automatic variables
 
