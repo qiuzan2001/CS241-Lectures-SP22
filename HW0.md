@@ -153,9 +153,11 @@ int main() {
 }
 ```
 5. What are some differences between `write()` and `printf()`?
+	```C
 	write() is a system call, print() is not
 	write() is a unbuffered io, it will immediately goes to the UNIX kernel and output directly
 	printf() is a buffered io, it goes to the buffer at first, and output when the buffer is full or with \n.
+	```
 
 ## Chapter 2
 
