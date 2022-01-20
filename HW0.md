@@ -147,12 +147,15 @@ int main() {
 	mode_t mode = S_IRUSR | S_IWUSR;
 	close(1);
 	int fildes = open("output.txt", O_CREAT | O_TRUNC | O_RDWR, mode);
-	printf("My name is Zihan Qiu");
+	printf("Hi! My name is Zihan Qiu");
 	close(fildes);
 	return 0;
 }
 ```
 5. What are some differences between `write()` and `printf()`?
+	write() is a system call, print() is not
+	write() is a unbuffered io, it will immediately goes to the UNIX kernel and output directly
+	printf() is a buffered io, it goes to the buffer at first, and output when the buffer is full or with \n.
 
 ## Chapter 2
 
