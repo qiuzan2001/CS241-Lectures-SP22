@@ -209,9 +209,21 @@ char *ptr = "hello";
 *ptr = 'J';
 ```
 7. What does `sizeof("Hello\0World")` return?
-8. What does `strlen("Hello\0World")` return?
-9. Give an example of X such that `sizeof(X)` is 3.
-10. Give an example of Y such that `sizeof(Y)` might be 4 or 8 depending on the machine.
+	```
+	13
+	```
+9. What does `strlen("Hello\0World")` return?
+	```
+	5
+	```
+11. Give an example of X such that `sizeof(X)` is 3.
+	```
+	he
+	```
+13. Give an example of Y such that `sizeof(Y)` might be 4 or 8 depending on the machine.
+	```
+	*ptr
+	```
 
 ## Chapter 3
 
@@ -219,9 +231,36 @@ Program arguments, environment variables, and working with character arrays (str
 
 ### Program arguments, `argc`, `argv`
 1. What are two ways to find the length of `argv`?
-2. What does `argv[0]` represent?
+	```C
+	int main(int argc, char* argv[]) {
+		int count = 1;
+		while(count < argc){
+			count++;
+		}
+		printf("lengthof 'argv' is %d\n", count);
+	return 0;
+	}
+	```
+	```C
+	int main(int argc, char* argv[]) {
+		int count = 1;
+		int sum = 0;
+		while(count < argc){
+			sum = atoi(argv[count]);
+		}
+		printf("lengthof 'argv' is %d\n", sum);
+	return 0;
+	}
+	```
+3. What does `argv[0]` represent?
+	```
+	the command with which the program is invoked, which is the program file name.
+	```
 ### Environment Variables
 3. Where are the pointers to environment variables stored (on the stack, the heap, somewhere else)?
+	```
+	Environment variables are stored together with command line arguments at the top of the process memory layout, above the stack.
+	```
 ### String searching (strings are just char arrays)
 4. On a machine where pointers are 8 bytes, and with the following code:
 ```C
@@ -237,6 +276,9 @@ sizeof(array) = 6 because "hello" is a 5 chars string, and one more bytes for de
 ### Lifetime of automatic variables
 
 5. What data structure manages the lifetime of automatic variables?
+	```
+	
+	```
 
 ## Chapter 4
 
