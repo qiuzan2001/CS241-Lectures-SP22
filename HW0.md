@@ -277,7 +277,7 @@ sizeof(array) = 6 because "hello" is a 5 chars string, and one more bytes for de
 
 5. What data structure manages the lifetime of automatic variables?
 	```
-	
+	function call stack 
 	```
 
 ## Chapter 4
@@ -286,9 +286,24 @@ Heap and stack memory, and working with structs
 
 ### Memory allocation using `malloc`, the heap, and time
 1. If I want to use data after the lifetime of the function it was created in ends, where should I put it? How do I put it there?
-2. What are the differences between heap and stack memory?
-3. Are there other kinds of memory in a process?
-4. Fill in the blank: "In a good C program, for every malloc, there is a ___".
+	```
+	put it in malloc allocated memory block
+	char* str = malloc(size_t);
+	strcpy(str, "Hello");
+	```
+3. What are the differences between heap and stack memory?
+	```
+	Stack memory will never become fragmented whereas Heap memory can become fragmented as blocks of memory are first allocated and then 	     freed. Stack accesses local variables only while Heap allows you to access variables globally.
+	```
+5. Are there other kinds of memory in a process?
+	```
+	virtural memory
+	```
+	
+7. Fill in the blank: "In a good C program, for every malloc, there is a ___".
+	```
+	free()
+	```
 ### Heap allocation gotchas
 5. What is one reason `malloc` can fail?
 6. What are some differences between `time()` and `ctime()`?
@@ -297,6 +312,9 @@ Heap and stack memory, and working with structs
 free(ptr);
 free(ptr);
 ```
+	```
+	ptr is freed 2 times ,the second time will be error.
+	```
 8. What is wrong with this code snippet?
 ```C
 free(ptr);
