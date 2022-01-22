@@ -320,14 +320,78 @@ free(ptr);
 free(ptr);
 printf("%s\n", ptr);
 ```
+```
+ptr is already freed, can not be used anymore.
+```
 9. How can one avoid the previous two mistakes? 
+```
+set ptr = NULL every time it's freed.
 ### `struct`, `typedef`s, and a linked list
 10. Create a `struct` that represents a `Person`. Then make a `typedef`, so that `struct Person` can be replaced with a single word. A person should contain the following information: their name (a string), their age (an integer), and a list of their friends (stored as a pointer to an array of pointers to `Person`s).
+	```C
+	struct Person{
+		char name[];
+		int age;
+		struct Person* next;
+	};
+	
+	typedef struct Person person;
+	```
 11. Now, make two persons on the heap, "Agent Smith" and "Sonny Moore", who are 128 and 256 years old respectively and are friends with each other.
+	```C
+	struct Person{
+		char name[];
+		int age;
+		struct Person* next;
+	};
+	
+	typedef struct Person person;
+	
+	int main(){
+		person* Agent = (person*)malloc(sizeof(person));
+		person* Sonny = (person*)malloc(sizeof(person));
+		
+		Agent->name[] = "Agent Smith";
+		Sonny->name[] = "Sonny Moore";
+		Agent->age = 128;
+		Sonney->age = 256;
+		Agent->next = Sonny;
+		Sonney->next = NULL;
+		
+		free(Agent);
+		free(Sonny);
+		
+		return 0;
+	}
+	```
 ### Duplicating strings, memory allocation and deallocation of structures
 Create functions to create and destroy a Person (Person's and their names should live on the heap).
 12. `create()` should take a name and age. The name should be copied onto the heap. Use malloc to reserve sufficient memory for everyone having up to ten friends. Be sure initialize all fields (why?).
+	```
+	struct Person{
+		char* name;
+		int* age;
+		struct Person* next;
+	};
+	person* person_create(char* aname, int* aage) {
+		person* result = (person*)malloc(sizeof(person) * 11);
+		result -> name = aname;
+		result -> age = aage;
+		return result;
+	}
+	```
 13. `destroy()` should free up not only the memory of the person struct, but also free all of its attributes that are stored on the heap. Destroying one person should not destroy any others.
+	```C
+	void person_destroy(person *p){
+		free(p->name);
+		free(p->age);
+		memset(p, 0, sizeof(person) * 11);
+		free(p);
+	}
+	
+	person* root;
+	
+	```
 
 ## Chapter 5 
 
