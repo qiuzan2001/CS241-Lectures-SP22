@@ -390,8 +390,8 @@ Create functions to create and destroy a Person (Person's and their names should
 	}
 	
 	person* root;
-	
 	```
+
 
 ## Chapter 5 
 
@@ -399,12 +399,45 @@ Text input and output and parsing using `getchar`, `gets`, and `getline`.
 
 ### Reading characters, trouble with gets
 1. What functions can be used for getting characters from `stdin` and writing them to `stdout`?
+	```C
+	scanf()
+	printf()
 2. Name one issue with `gets()`.
+	```
+	 the function doesn't know how big the buffer is, so it continues reading until it finds a newline or encounters EOF, and may overflow
+	 the bounds of the buffer it was given. 
+	```
 ### Introducing `sscanf` and friends
 3. Write code that parses the string "Hello 5 World" and initializes 3 variables to "Hello", 5, and "World".
+	```C
+	char* data = "Hello 5 World";
+	char buffer1[10];
+	char buffer2[10];
+	int num = 0 ;
+	sscanf(data, "%s %d %s", buffer1, num, buffer2); 
+	```
 ### `getline` is useful
 4. What does one need to define before including `getline()`?
+	```C
+	#define _GNU_SOURCE char* buffer = NULL; size_t capacity = 0;
+	```
 5. Write a C program to print out the content of a file line-by-line using `getline()`.
+	```C
+	#define _GNU_SOURCE
+	#include <stdio.h>
+	#include <stdlib.h>
+	
+	int main(int argc, char *argv[]){
+		FILE *stream = fopen(argv[1], "r");;
+  		char* line = NULL;
+  		size_t len = 0;
+  		ssize_t nread;;
+  		while ((nread = getline(&line, &len, stream)) != -1) {
+               		printf(" %s \n", line);
+    
+  		}
+	}
+	```
 
 ## C Development
 
