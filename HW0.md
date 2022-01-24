@@ -145,9 +145,8 @@ int main() {
 
 int main() {
 	mode_t mode = S_IRUSR | S_IWUSR;
-	close(1);
 	int fildes = open("output.txt", O_CREAT | O_TRUNC | O_RDWR, mode);
-	printf("Hi! My name is Zihan Qiu");
+	dprintf("Hi! My name is Zihan Qiu");
 	close(fildes);
 	return 0;
 }
@@ -210,7 +209,7 @@ char *ptr = "hello";
 ```
 7. What does `sizeof("Hello\0World")` return?
 	```
-	13
+	12
 	```
 9. What does `strlen("Hello\0World")` return?
 	```
@@ -269,7 +268,7 @@ char array[] = "Hello";
 ```
 What are the values of `sizeof(ptr)` and `sizeof(array)`? Why?
 ```
-sizeof(ptr) = 4 because the size of pointer is 4
+sizeof(ptr) = 8 because the size of pointer is 8
 sizeof(array) = 6 because "hello" is a 5 chars string, and one more bytes for declear the end of a array.
 ```
 
@@ -287,13 +286,13 @@ Heap and stack memory, and working with structs
 ### Memory allocation using `malloc`, the heap, and time
 1. If I want to use data after the lifetime of the function it was created in ends, where should I put it? How do I put it there?
 	```
-	put it in malloc allocated memory block
+	put it in "malloc" allocated memory block
 	char* str = malloc(size_t);
 	strcpy(str, "Hello");
 	```
 3. What are the differences between heap and stack memory?
 	```
-	Stack memory will never become fragmented whereas Heap memory can become fragmented as blocks of memory are first allocated and then 	     freed. Stack accesses local variables only while Heap allows you to access variables globally.
+	Stack memory will never become fragmented whereas Heap memory can become fragmented as blocks of memory are first allocated and then freed. Stack accesses local variables only while Heap allows you to access variables globally.
 	```
 5. Are there other kinds of memory in a process?
 	```
@@ -306,14 +305,16 @@ Heap and stack memory, and working with structs
 	```
 ### Heap allocation gotchas
 5. What is one reason `malloc` can fail?
-6. What are some differences between `time()` and `ctime()`?
-7. What is wrong with this code snippet?
+	when it's full
+7. What are some differences between `time()` and `ctime()`?
+	time() is system call to get the current time. ctime() is to transfer it to human readable string time.
+9. What is wrong with this code snippet?
 ```C
 free(ptr);
 free(ptr);
 ```
 	```
-	ptr is freed 2 times ,the second time will be error.
+	ptr is freed 2 times ,the second time will be error. need to be set to NULL after freed
 	```
 8. What is wrong with this code snippet?
 ```C
@@ -341,28 +342,28 @@ set ptr = NULL every time it's freed.
 11. Now, make two persons on the heap, "Agent Smith" and "Sonny Moore", who are 128 and 256 years old respectively and are friends with each other.
 	```C
 	struct Person{
-		char name[];
-		int age;
-		struct Person* next;
+		char* name;
+ 		char* age;
+ 		struct Person* next;
 	};
-	
+
 	typedef struct Person person;
-	
-	int main(){
-		person* Agent = (person*)malloc(sizeof(person));
-		person* Sonny = (person*)malloc(sizeof(person));
-		
-		Agent->name[] = "Agent Smith";
-		Sonny->name[] = "Sonny Moore";
-		Agent->age = 128;
-		Sonney->age = 256;
-		Agent->next = Sonny;
-		Sonney->next = NULL;
-		
-		free(Agent);
-		free(Sonny);
-		
-		return 0;
+
+	int main() {
+	person* Agent = (person*)malloc(sizeof(person));
+ 	person* Sonny = (person*)malloc(sizeof(person));
+ 
+ 	Agent->name = "Agent Smith";
+ 	Sonny->name = "Sonny Moore";
+ 	Agent->age = 128;
+ 	Sonny->age = 256;
+ 	Agent->next = Sonny;
+ 	Sonny->next = NULL;
+ 
+ 	free(Agent);
+ 	free(Sonny);
+ 
+ 	return 0;
 	}
 	```
 ### Duplicating strings, memory allocation and deallocation of structures
@@ -370,10 +371,11 @@ Create functions to create and destroy a Person (Person's and their names should
 12. `create()` should take a name and age. The name should be copied onto the heap. Use malloc to reserve sufficient memory for everyone having up to ten friends. Be sure initialize all fields (why?).
 	```
 	struct Person{
-		char* name;
+		char* name[];
 		int* age;
 		struct Person* next;
 	};
+	typedef struct Person person;
 	person* person_create(char* aname, int* aage) {
 		person* result = (person*)malloc(sizeof(person) * 11);
 		result -> name = aname;
@@ -389,8 +391,6 @@ Create functions to create and destroy a Person (Person's and their names should
 		memset(p, 0, sizeof(person) * 11);
 		free(p);
 	}
-	
-	person* root;
 	```
 
 
@@ -420,7 +420,9 @@ Text input and output and parsing using `getchar`, `gets`, and `getline`.
 ### `getline` is useful
 4. What does one need to define before including `getline()`?
 	```C
-	#define _GNU_SOURCE char* buffer = NULL; size_t capacity = 0;
+	#define _GNU_SOURCE 
+	char* buffer = NULL; 
+	size_t capacity = 0;
 	```
 5. Write a C program to print out the content of a file line-by-line using `getline()`.
 	```C
@@ -445,13 +447,41 @@ Text input and output and parsing using `getchar`, `gets`, and `getline`.
 These are general tips for compiling and developing using a compiler and git. Some web searches will be useful here
 
 1. What compiler flag is used to generate a debug build?
-2. You modify the Makefile to generate debug builds and type `make` again. Explain why this is insufficient to generate a new build.
-3. Are tabs or spaces used to indent the commands after the rule in a Makefile?
-4. What does `git commit` do? What's a `sha` in the context of git?
-5. What does `git log` show you?
-6. What does `git status` tell you and how would the contents of `.gitignore` change its output?
-7. What does `git push` do? Why is it not just sufficient to commit with `git commit -m 'fixed all bugs' `?
-8. What does a non-fast-forward error `git push` reject mean? What is the most common way of dealing with this?
+	```
+	gcc -g
+	```
+3. You modify the Makefile to generate debug builds and type `make` again. Explain why this is insufficient to generate a new build.
+	```
+	"make clean" first to clear previous .o files and then make again.
+
+	```
+
+5. Are tabs or spaces used to indent the commands after the rule in a Makefile?
+	```
+	yes
+	```
+7. What does `git commit` do? What's a `sha` in the context of git?
+	```
+	A commit, or "revision", is an individual change to a file (or set of files). It's like when you save a file, except with Git, every time you save it creates a unique ID (a.k.a. the "SHA" or "hash") that allows you to keep record of what changes were made when and by who.
+	```
+9. What does `git log` show you?
+	```
+	The git log command shows a list of all the commits made to a repository.
+	```
+11. What does `git status` tell you and how would the contents of `.gitignore` change its output?
+	```
+	The git status command displays the state of the working directory and the staging area. gitignore file specifies intentionally untracked files that Git should ignore
+	```
+13. What does `git push` do? Why is it not just sufficient to commit with `git commit -m 'fixed all bugs' `?
+	```
+	push commits made on your local branch to a remote repository. 
+	The git push command takes two arguments: A remote name, for example, origin. A branch name, for example, master. Because if we simply do commit, we commit files to the local.
+	```
+15. What does a non-fast-forward error `git push` reject mean? What is the most common way of dealing with this?
+	```
+	If another person has pushed to the same branch as you, Git won't be able to push your changes.
+	fetching and merging the changes made on the remote branch with the changes that you have made locallly.
+	```
 
 ## Optional (Just for fun)
 - Convert your a song lyrics into System Programming and C code and share on Ed.
