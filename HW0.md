@@ -326,6 +326,7 @@ ptr is already freed, can not be used anymore.
 9. How can one avoid the previous two mistakes? 
 ```
 set ptr = NULL every time it's freed.
+```
 ### `struct`, `typedef`s, and a linked list
 10. Create a `struct` that represents a `Person`. Then make a `typedef`, so that `struct Person` can be replaced with a single word. A person should contain the following information: their name (a string), their age (an integer), and a list of their friends (stored as a pointer to an array of pointers to `Person`s).
 	```C
